@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>default.html</title>
+	<meta name="generator" content="BBEdit 10.5" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/s/dt/jqc-1.11.3,dt-1.10.10/datatables.min.css"/>
+
+<script type="text/javascript" src="https://cdn.datatables.net/s/dt/jqc-1.11.3,dt-1.10.10/datatables.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/s/dt/jqc-1.11.3,dt-1.10.10/datatables.min.css"/>
+<LINK REL="stylesheet" HREF="_css/home.css" id="styleid"/>
+	<script type="text/javascript" class="init">
+
+$(document).ready(function() {
+	$('#example').DataTable( {
+		"processing": true,
+		"ajax": "./data/objects_deep.txt",
+		"columns": [
+			{ "data": "name" },
+			{ "data": "hr.position" },
+			{ "data": "contact.0" },
+			{ "data": "contact.1" },
+			{ "data": "hr.start_date" },
+			{ "data": "hr.salary" }
+		]
+	} );
+} );
+
+	</script>
+</head>
+<body>
+<table id="example" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Extn.</th>
+                <th>Start date</th>
+                <th>Salary</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Extn.</th>
+                <th>Start date</th>
+                <th>Salary</th>
+            </tr>
+        </tfoot>
+    </table>
+</body>
+</html>
