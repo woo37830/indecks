@@ -17,7 +17,7 @@
 	<link rel="stylesheet" type="text/css" href="./themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="./themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="./themes/color.css">
-    
+
     <script type="text/javascript" class="init">
         var oTable;
         var json;
@@ -49,11 +49,18 @@
                 oTable.ajax.reload(null, false);
             }, 30000 );*/
 
-            $(document).on('click','#books tbody tr',function() {
+            $(document).on('click','#books td',function() {
                 var row = $(this).closest("tr");
-                //alert("You clicked row: "+$(row));
-                //alert("You clicked: "+$(row).find("td:nth-child(6)").text());
+								var colIndex = parseInt( $(this).index() ) + 1;
+								if( colIndex == 1 ) {
                 editBook($(row).find("td:nth-child(1)").text(),$(row).find("td:nth-child(2)").text(),$(row).find("td:nth-child(3)").text(),$(row).find("td:nth-child(4)").text(),$(row).find("td:nth-child(5)").text(),$(row).find("td:nth-child(6)").text(),$(row).find("td:nth-child(7)").text());
+							} else if( colIndex == 7 ) {
+									var image_cell = $(row).find("td:nth-child(7)").text();
+									if( image_cell != "" ) { // TODO - Change to formatted page with title, back button, and sized image
+										var win = window.open("./figures/"+image_cell, '_blank');
+										win.focus();
+									}
+							}
             });
             $(document).on('click','#log_in', function() {
             $.getJSON( "./users.txt", function( json ) {
@@ -208,7 +215,7 @@
 	                createCookie('userid', uName);
 	                user = uName;
 	                done = true;
-	            } 
+	            }
 	        }
 	        if( !done ) {
 	                alert('username or password not found');
@@ -306,19 +313,19 @@
  		               var objJSON = result.entries[i];
   		               $.each(objJSON, function(key, value) {
                         if( key == 'h1' ) {
-                           newWindow.document.write("<center><h1>"+value+"</h1></center>");                       
+                           newWindow.document.write("<center><h1>"+value+"</h1></center>");
                         } else if (key == 'h2' ) {
-                           newWindow.document.write("<center><h2>"+value+"</h2></center><br/>");                       
+                           newWindow.document.write("<center><h2>"+value+"</h2></center><br/>");
                         } else {
                            newWindow.document.write(value+"<p/>");
                            }
                      });
   		              }
  		              newWindow.document.write("\n</body>\n</html>");
-                  } 
+                  }
             });
             newWindow.document.close();
-            newWindow.focus();       
+            newWindow.focus();
         	   $('#print').dialog('close');
         }
 	// Cookie functions
