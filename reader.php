@@ -27,22 +27,21 @@ echo "<html><head><title>Reader</title>";
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </head>
 <body>
-  <div class="container">
-      <h3 class="text-center">Reader</h3>
+  <div class="container" >
 <?php
 require('conn.php');
 $sql = "SELECT * FROM books WHERE position_order = $page ";
 $sections = $conn -> query($sql);
-echo "<div id='content'>";
+echo "<div class='content'>";
 while($section = $sections->fetch_assoc()){
   echo "<div id='header'>";
-echo "<div id='title'>";
-echo $section['header'];
-echo "</div>";
-echo "<div id='page'>";
-echo "Page: $page";
-echo "</div>";
-echo "</div>";
+    echo "<div class='title'>";
+      echo $section['header'];
+        echo "<div class='page_num'>";
+          echo "Page: $page";
+        echo "</div>";
+    echo "</div>";
+  echo "</div>";
 echo "<p/>";
 if( $section['image_url'] != "" ) {
   $figures = explode(",",$section['image_url']);
@@ -81,7 +80,9 @@ if( $section['image_url'] != "" ) {
       <?php
     }
 }
+echo "<div class='text-wrapper'>";
 echo $section['data'];
+echo "</div>";
 echo "<p />";
 echo "<center>";
 }
