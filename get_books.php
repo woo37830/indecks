@@ -4,18 +4,19 @@
 	//$rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
 	//$offset = ($page-1)*$rows;
 	$result = array();
-	include 'conn.php';
+	require 'conn.php';
     //$user = 'woo';
 	//$rs = mysql_query("select count(*) from data");
 	//$row = mysql_fetch_row($rs);
 	//$result["iTotalRecords"] = $row[0];
 	//$rs = mysql_query("select * from data limit $offset,$rows");
-  if( empty($user) ) {
-    $whereclause = "where user = '$user'";
-  } else {
+  //if( empty($user) ) {
+  //  $whereclause = "where user = '$user'";
+  //} else {
     $whereclause = "";
-  }
-	$rs = mysqli_query($conn, "select * from books " . $whereclause );
+  //}
+  $sql = "select * from books ORDER BY position_order ASC";
+	$rs = $conn -> query( $sql );
 
 	$items = array();
 	while($row = mysqli_fetch_array($rs)){

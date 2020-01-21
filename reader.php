@@ -8,17 +8,21 @@ if( isset($_COOKIE["user"])) { // cookie has userid, page_num,...
   setcookie("user", "woo,1", time()+3600*24*30);
 }
 if( isset($_POST['submit'])) {
-  if( $_POST['submit'] == "Next" ) {
-    $page++;
+  if( $_POST['submit'] != 'First' ) {
+    if( $_POST['submit'] == "Next" ) {
+      $page++;
+    } else {
+      $page--;
+    }
   } else {
-    $page--;
+    $page = 1;
   }
   setcookie("user","woo,$page",time()+3600*24*30);
 }
 echo "<html><head><title>Reader</title>";
 ?>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="./_css/home.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </head>
@@ -29,20 +33,53 @@ echo "<html><head><title>Reader</title>";
 require('conn.php');
 $sql = "SELECT * FROM books WHERE position_order = $page ";
 $sections = $conn -> query($sql);
-echo "<center>";
+echo "<div id='content'>";
 while($section = $sections->fetch_assoc()){
-
+  echo "<div id='header'>";
+echo "<div id='title'>";
 echo $section['header'];
+echo "</div>";
+echo "<div id='page'>";
+echo "Page: $page";
+echo "</div>";
+echo "</div>";
 echo "<p/>";
-echo "</center>";
 if( $section['image_url'] != "" ) {
-  $src = urlencode($section['image_url']);
-  $image = "./figures/$src";
-  echo "<center>";
-  echo "<img src=$image style=\"width:800px;height:600px;\" />";
-  echo "<p />";
-  echo "<h3>$src</h3><p />";
-  echo "</center>";
+  $figures = explode(",",$section['image_url']);
+  $num_figures = sizeof($figures);
+  if( $num_figures == 1 ) {
+      $src = urlencode($figures[0]);
+      $image = "./figures/$src";
+      echo "<center>";
+      echo "<img src=$image style=\"width:800px;height:600px;\" />";
+      echo "<p />";
+      echo "<h3>$src</h3><p />";
+      echo "</center>";
+    } else {
+      $width = 800/$num_figures;
+      $height = $width;
+       ?>
+       <center>
+      <table>
+      <tbody>
+      <tr>
+        <?php for($i=0;$i<$num_figures; $i++) {
+          $src = urlencode($figures[$i]);
+          $image = "./figures/$src";
+          ?> <td> <?php echo "<img src=$image style=\"width:300px;height:300px;\" class=\"rotateimg90\"/>"; ?></td><?php
+        } ?>
+      <tr>
+      <tr>
+        <?php for($i=0;$i<$num_figures; $i++) {
+          $src = urlencode($figures[$i]);
+          ?> <td> <?php echo "$src"; ?></td><?php
+        } ?>
+      </tr>
+      </tbody>
+      </table>
+    </center>
+      <?php
+    }
 }
 echo $section['data'];
 echo "<p />";
@@ -50,10 +87,13 @@ echo "<center>";
 }
 ?>
 <form action='' method='POST'>
-                <input type='submit' name='submit' value='Next'/>
-</form>
-<form action='' method='POST'>
-                <input type='submit' name='submit' value='Prev' />
+
+  <?php
+    if( $page > 1 ) { ?>
+    <input type='submit' name='submit' value='First'/> |
+    <input type='submit' name='submit' value='Prev' /> |
+  <?php } ?>
+    <input type='submit' name='submit' value='Next'/>
 </form>
 </div>
 <p /><p />
