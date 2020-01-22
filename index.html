@@ -37,12 +37,25 @@
             },
             columns: [
                 { data: "id", width: "10%" },
-                { data:  "paper" , 'visible' : false },
-                { data:  "measurement", 'visible' : false },
+                { data:  "paper" },
+                { data:  "measurement" },
                 { data:  "header" },
-                { data:  "page", 'visible' : false },
+                { data:  "page" },
                 { data:  "data" },
-                { data:  "image_url" }
+                { data:  "image_url" },
+								{ data:  "position_order" },
+								{ data:  "date",
+            			render: function(data, type, row){
+                		if(type === "sort" || type === "type"){
+                    	return data;
+                		}
+										if( data != null ) {
+                		return data.substr(0,4);
+									} else {
+										return "";
+									}
+            		}
+							}
             ]
             });
             /*setInterval( function() {
@@ -100,7 +113,9 @@
                             <th class="header_name">Header</th>
                             <th class="page_name">Page</th>
                             <th class="data_name">Data</th>
-                            <th class="data_name">URL</th>
+                            <th class="url_name">URL</th>
+														<th class="position_order_name">Order</th>
+														<th class="date_name">Date</th>
                         </tr>
                  </table>
 	            </div>
@@ -156,6 +171,10 @@
 				<label>Image_URL:</label>
 				<input name="image_url" class="easyui-textbox">
 			</div>
+			<div class="fitem">
+			<label>Date:</label>
+			<input name="date" class="easyui-textbox">
+		</div>
 		</form>
 	</div>
 	<div id="dlg-buttons">

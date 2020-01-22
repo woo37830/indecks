@@ -15,7 +15,7 @@
   //} else {
     $whereclause = "";
   //}
-  $sql = "select * from books ORDER BY position_order ASC";
+  $sql = "SELECT * FROM `books` ORDER BY `books`.`position_order` ASC";
 	$rs = $conn -> query( $sql );
 
 	$items = array();

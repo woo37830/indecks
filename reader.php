@@ -39,6 +39,12 @@ while($section = $sections->fetch_assoc()){
       echo $section['header'];
         echo "<div class='page_num'>";
           echo "Page: $page";
+          if( isset($section['date']) ) {
+            $date = $section['date'];
+            $date = date_create($date);
+            $year = date_format($date,"Y");
+            echo "<br />Year: $year";
+          }
         echo "</div>";
     echo "</div>";
   echo "</div>";
@@ -98,3 +104,4 @@ echo "<center>";
 </form>
 </div>
 <p /><p />
+<div class="footer" />
