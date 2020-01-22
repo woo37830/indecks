@@ -50,7 +50,7 @@ if( $section['image_url'] != "" ) {
       $src = urlencode($figures[0]);
       $image = "./figures/$src";
       echo "<center>";
-      echo "<img src=$image style=\"width:800px;height:600px;\" />";
+      echo "<img src=$image style=\"width:500px;height:300px;\" />";
       echo "<p />";
       echo "<h3>$src</h3><p />";
       echo "</center>";
@@ -65,7 +65,7 @@ if( $section['image_url'] != "" ) {
         <?php for($i=0;$i<$num_figures; $i++) {
           $src = urlencode($figures[$i]);
           $image = "./figures/$src";
-          ?> <td> <?php echo "<img src=$image style=\"width:300px;height:300px;\" class=\"rotateimg90\"/>"; ?></td><?php
+          ?> <td> <?php echo "<img src=$image style=\"width:200px;height:200px;\" class=\"rotateimg90\"/>"; ?></td><?php
         } ?>
       <tr>
       <tr>
