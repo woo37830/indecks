@@ -92,6 +92,7 @@ echo "</div>";
 echo "<p />";
 echo "<center>";
 }
+
 ?>
 <form action='' method='POST'>
 
@@ -104,4 +105,10 @@ echo "<center>";
 </form>
 </div>
 <p /><p />
-<div class="footer" />
+<div id="footer" >
+  <?php
+     $rev = exec('git rev-parse --short HEAD');
+     $branch = exec('git rev-parse --abbrev-ref HEAD');
+     echo "<center>Commit: $rev &nbsp;&nbsp;&nbsp;Branch: $branch </center>";
+  ?>
+</div>
