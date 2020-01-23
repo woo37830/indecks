@@ -9,6 +9,7 @@
 </head>
 <body>
     <div class="container">
+      <div id="log_in">Login</div>
         <h3 class="text-center">Dynamic Drag and Drop table rows in PHP Mysql</h3>
         <table class="table table-bordered">
             <tr>
@@ -33,7 +34,13 @@
             <?php } ?>
             </tbody>
         </table>
-    </div> <!-- container / end -->
+    </div>
+    <div id="footer" >
+      <?php
+      include 'git-info.php';
+      ?>
+    </div>
+<!-- container / end -->
 </body>
 
 <script type="text/javascript">
@@ -44,7 +51,7 @@
             $('.row_position>tr').each(function() {
                 selectedData.push($(this).attr("id"));
             });
-            
+
             updateOrder(selectedData);
         }
     });

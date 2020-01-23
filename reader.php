@@ -107,8 +107,6 @@ echo "<center>";
 <p /><p />
 <div id="footer" >
   <?php
-     $rev = exec('git rev-parse --short HEAD');
-     $branch = exec('git rev-parse --abbrev-ref HEAD');
-     echo "<center>Commit: $rev &nbsp;&nbsp;&nbsp;Branch: $branch </center>";
+  include 'git-info.php';
   ?>
 </div>
