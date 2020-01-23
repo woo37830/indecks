@@ -33,6 +33,14 @@ require('conn.php');
 $sql = "SELECT * FROM books WHERE position_order = $page ";
 $sections = $conn -> query($sql);
 echo "<div class='content'>";
+?>
+<div id="navigation">
+  <ul>
+    <li><a href="sorter.php">Sorter</a></li>
+    <li><a href="index.html">Editor</a></li>
+  </ul>
+</div>
+<?php
 while($section = $sections->fetch_assoc()){
   echo "<div id='header'>";
     echo "<div class='title'>";

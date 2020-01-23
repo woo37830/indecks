@@ -6,7 +6,7 @@
 <!-- $Source: /Users/woo/cvsrep/library/index.html,v $   -->
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset="UTF-8">
-	<title>Journal</title>
+	<title>Event Editor</title>
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css"/>
@@ -56,8 +56,17 @@
 									}
             		}
 							}
-            ]
+            ],
+						order: [[7, 'asc']]
             });
+						$.ajax({
+					 url:'git-info.php',
+					 type:'GET',
+					success:function(data)
+					{
+								 $("#footer").html(data);
+							}
+			 });
             /*setInterval( function() {
                 oTable.ajax.reload(null, false);
             }, 30000 );*/
@@ -97,12 +106,19 @@
         <div class="header"></div>
 	    <div class="content">
 	    <div id="log_in">Login</div>
+			<div id="navigation">
+				<br />
+				<ul>
+					<li><a href="reader.php">Reader</a></li>
+					<li><a href="sorter.php">Sorter</a></li>
+				</ul>
+			</div>
         <div id="toolbar" class="hide">
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newBook()">New Entry</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="print()">Print</a>
         </div>
             <div id="page" >
-                <div class="title">Journal</div>
+                <div class="title">Biographical Event Editor</div>
                 <hr/>
                 <table id="books" class="tablesorter">
                     <thead>
@@ -122,9 +138,7 @@
 	        </div>
 	</div>
 	<div id="footer" >
-	  <?php
-	  include 'git-info.php';
-	  ?>
+			<h4>data</h4>
 	</div>
 	<div id="lin" class="easyui-dialog" style="width:400px;height:380px;padding:10px 20px"
 			closed="true" buttons="#lin-buttons">
