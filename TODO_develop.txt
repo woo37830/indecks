@@ -1,0 +1,10 @@
+Fix the database so it does not have page, measure, column with ANECDOTES.
+Then, fix the get_books.php if necessary,
+Then, the index.html to only display id, header, data, date
+And the save_book.php and update_book.php to only use those columns.
+Check that the selector works for the images.
+Send the selected url ( which may have multiple images )
+to a page to display the images with the title.
+Also, fix so that only the 'logged_in' is used for the user, BUT
+use a 'page' cookie to remember the page.  they may not be logged
+in when they are viewing the pages.
