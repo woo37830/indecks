@@ -18,7 +18,7 @@
         <br />
         <ul>
           <li><a href="reader.php">Reader</a></li>
-          <li><a href="index.html">Editor</a></li>
+          <li><a href="editor.html">Editor</a></li>
         </ul>
       </div>
       <div class="title">

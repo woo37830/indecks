@@ -37,7 +37,7 @@ echo "<div class='content'>";
 <div id="navigation">
   <ul>
     <li><a href="sorter.php">Sorter</a></li>
-    <li><a href="index.html">Editor</a></li>
+    <li><a href="editor.html">Editor</a></li>
   </ul>
 </div>
 <?php

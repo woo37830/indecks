@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+<!-- $Author: woo $   -->
+<!-- $Date: 2019/12/27 19:03:25 $     -->
+<!-- $Revision: 1.10 $ -->
+<!-- $Source: /Users/woo/cvsrep/library/index.html,v $   -->
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset="UTF-8">
+	<title>Event Editor</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css"/>
+    <LINK REL="stylesheet" HREF="_css/jquery.dataTables_themeroller.css" />
+    <!-- link rel="stylesheet" href="_css/jquery.tablesorter.pager.css" / -->
+	<script type="text/javascript" src="./_js/jquery.easyui.min.js"></script>
+	<LINK REL="stylesheet" HREF="_css/home.css" id="styleid"/>
+	<link rel="stylesheet" type="text/css" href="./themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="./themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="./themes/color.css">
+
+    <script type="text/javascript" class="init">
+        var oTable;
+        var json;
+        var uName;
+        var users;
+        var user;
+        $(document).ready(function() {
+            oTable = $('#books').DataTable({
+            processing: true,
+            bStateSave: true,
+            scrollY: 400,
+            deferRender: true,
+            scroller: true,
+            ajax: {
+                url: "./get_books.php?user="+readCookie('userid'),
+                dataSrc: "entries"
+            },
+            columns: [
+                { data: "id", width: "10%" },
+                { data:  "paper" },
+                { data:  "measurement" },
+                { data:  "header" },
+                { data:  "page" },
+                { data:  "data" },
+                { data:  "image_url" },
+								{ data:  "position_order" },
+								{ data:  "date",
+            			render: function(data, type, row){
+                		if(type === "sort" || type === "type"){
+                    	return data;
+                		}
+										if( data != null ) {
+                		return data.substr(0,4);
+									} else {
+										return "";
+									}
+            		}
+							}
+            ],
+						order: [[7, 'asc']]
+            });
+						$.ajax({
+					 url:'git-info.php',
+					 type:'GET',
+					success:function(data)
+					{
+								 $("#footer").html(data);
+							}
+			 });
+            /*setInterval( function() {
+                oTable.ajax.reload(null, false);
+            }, 30000 );*/
+
+            $(document).on('click','#books td',function() {
+                var row = $(this).closest("tr");
+								var colIndex = parseInt( $(this).index() ) + 1;
+								if( colIndex == 1 ) {
+                editBook($(row).find("td:nth-child(1)").text(),$(row).find("td:nth-child(2)").text(),$(row).find("td:nth-child(3)").text(),$(row).find("td:nth-child(4)").text(),$(row).find("td:nth-child(5)").text(),$(row).find("td:nth-child(6)").text(),$(row).find("td:nth-child(7)").text());
+							} else if( colIndex == 7 ) {
+									var image_cell = $(row).find("td:nth-child(7)").text();
+									if( image_cell != "" ) { // TODO - Change to formatted page with title, back button, and sized image
+										var win = window.open("./figures/"+image_cell, '_blank');
+										win.focus();
+									}
+							}
+            });
+            $(document).on('click','#log_in', function() {
+            $.getJSON( "./users.txt", function( json ) {
+                 $.each(json, function( key, value) {
+                 //for( var i=0; i<value.length; i++ ) {
+                //alert("user = "+value[i].user+" password = "+value[i].passwd);
+                //}
+                users = $.map(value, function(el) { return el });
+          });
+        });
+                login();
+            });
+            $(document).on('click','#log_out', function() {
+                logout();
+            });
+        });
+    </script>
+</head>
+<body
+    <div class="wrapper">
+        <div class="header"></div>
+	    <div class="content">
+	    <div id="log_in">Login</div>
+			<br />
+			<div id="navigation">
+				<br />
+				<ul>
+					<li><a href="reader.php">Reader</a></li>
+					<li><a href="sorter.php">Sorter</a></li>
+				</ul>
+			</div>
+        <div id="toolbar" class="hide">
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newBook()">New Entry</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="print()">Print</a>
+        </div>
+            <div id="page" >
+                <div class="title">Biographical Event Editor</div>
+                <hr/>
+                <table id="books" class="tablesorter">
+                    <thead>
+                        <tr>
+                            <th class="id_name">ID</th>
+                            <th class="paper_name">Paper</th>
+                            <th class="measurement_name">Number</th>
+                            <th class="header_name">Header</th>
+                            <th class="page_name">Page</th>
+                            <th class="data_name">Data</th>
+                            <th class="url_name">URL</th>
+														<th class="position_order_name">Order</th>
+														<th class="date_name">Date</th>
+                        </tr>
+                 </table>
+	            </div>
+	        </div>
+	</div>
+	<div id="footer" >
+			<em>data</em>
+	</div>
+	<div id="lin" class="easyui-dialog" style="width:400px;height:380px;padding:10px 20px"
+			closed="true" buttons="#lin-buttons">
+		<div class="ftitle">Login</div>
+		<form id="lfm" method="post" novalidate>
+			<div class="fitem">
+				<label>User:</label>
+				<input name="user" class="easyui-textbox" id="userid" required="true">
+			</div>
+			<div class="fitem">
+				<label>Password:</label>
+				<input name="passwd" type= "password" class="easyui-textbox" id="password" required="true">
+			</div>
+		</form>
+	</div>
+	<div id="lin-buttons">
+		<a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="authorize()" style="width:90px">Login</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#lin').dialog('close')" style="width:90px">Cancel</a>
+	</div>
+
+	<div id="dlg" class="easyui-dialog" style="width:600px;height:480px;padding:10px 20px"
+			closed="true" buttons="#dlg-buttons">
+		<div class="ftitle">Entry</div>
+		<form id="fm" method="post" novalidate>
+			<div class="fitem">
+				<label>Paper:</label>
+				<input name="paper" class="easyui-textbox" required="true" >
+			</div>
+			<div class="fitem">
+				<label>Measurement:</label>
+				<input name="measurement" class="easyui-textbox" required="true">
+			</div>
+			<div class="fitem">
+				<label>Header:</label>
+				<input name="header" class="easyui-textbox">
+			</div>
+			<div class="fitem">
+				<label>Page:</label>
+				<input name="page" class="easyui-textbox" required="true">
+			</div>
+ 			<div class="fitem">
+				<label>Data:</label>
+				<input name="data" class="easyui-textbox" data-options="multiline:true" style="height:100px">
+			</div>
+		    <div class="fitem">
+				<label>Image_URL:</label>
+				<input name="image_url" class="easyui-textbox">
+			</div>
+			<div class="fitem">
+			<label>Date:</label>
+			<input name="date" class="easyui-textbox">
+		</div>
+		</form>
+	</div>
+	<div id="dlg-buttons">
+	    <div id="sql_buttons" class="show-sql">
+		<a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="updateBook()" style="width:90px">Save</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-destoy" onclick="destroyBook()" style="width:90px">Remove</a>
+	   </div>
+		<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancel</a>
+	</div>
+	<div id="print" class="easyui-dialog" style="width:400px;height:380px;padding:10px 20px"
+         closed="true" buttons="#lin-buttons">
+      <div class="ftitle">Print</div>
+      <form id="pfm" method="post" novalidate>
+         <div class="fitem">
+            <label>Selection:</label>
+            <input name="paper" class="easyui-textbox" id="paper" required="true">
+         </div>
+      </form>
+   </div>
+   <div id="lin-buttons" class="show-sql">
+      <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="printIt()" style="width:90px">Print</a>
+      <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#print').dialog('close')" style="width:90px">Cancel</a>
+   </div>
+</div>
+	<script type="text/javascript">
+	if( readCookie("logged_in") ) {
+	                $("#log_in").text("Logout: "+readCookie('userid'));
+	                $("#log_in").attr('id', 'log_out');
+                    $("#toolbar").attr('class', 'show');
+	} else {
+	            $("#log_out").text("Login");
+	            $("#log_out").attr('id', 'log_in');
+                $("#toolbar").attr('class', 'hide');
+	}
+         var days = 1;
+    	function login() {
+	                $('#lin').dialog('open').dialog('set Title', 'Login');
+	                $('#lfm').form('clear');
+	        }
+	    function logout() {
+	            eraseCookie('logged_in');
+	            eraseCookie('userid');
+	            window.location.reload();
+	        }
+	    function authorize() {
+	        // Compare the form data to the json data and if match, createCookie, else logout;
+	        // alert("json data: " + json.user[1] + ", " + json.passwd);
+	        //alert("form data: " + document.getElementById("userid").value);
+	        uName = document.getElementById("userid").value;
+	        var pName = document.getElementById("password").value;
+	       $('#lin').dialog('close');
+	       var done = false;
+	 	   for( var i=0;i<users.length&&!done;i++) {
+	 	       // alert("Testing '"+users[i].user+"' and '"+users[i].passwd+"'");
+	            if( uName == users[i].user && pName == users[i].passwd ) {
+                    createCookie('logged_in', 'yes', days);
+	                createCookie('userid', uName);
+	                user = uName;
+	                done = true;
+	            }
+	        }
+	        if( !done ) {
+	                alert('username or password not found');
+	                logout();
+	        } else {
+	           // alert("Cookie: 'logged_in': "+readCookie('logged_in'));
+	            }
+	            window.location.reload();
+	        }
+
+		var url;
+		var row;
+		function newBook(){
+			$('#dlg').dialog('open').dialog('setTitle','New Entry');
+			$('#fm').form('clear');
+			var u = readCookie('userid');
+			url = './save_book.php?user='+u;
+		}
+		function editBook( id, paper, measurement, header, page, data, image_url){
+			if (paper){
+			//alert("Values are: "+author+", "+title);
+				$('#dlg').dialog('open').dialog('setTitle','Edit Entry');
+				$('#fm').form('load',{
+				    paper: paper,
+				    measurement: measurement,
+				    header: header,
+				    page: page,
+				    data: data,
+				    image_url: image_url
+				});
+				row = id;
+				url = './update_book.php?id='+id;
+			}
+		}
+		function updateBook(){
+			$('#fm').form('submit',{
+				url: url,
+				onSubmit: function(){
+					return $(this).form('validate');
+				},
+				success: function(result){
+					var result = eval('('+result+')');
+					if (result.errorMsg){
+						$.messager.show({
+							title: 'Error',
+							msg: result.errorMsg
+						});
+					} else {
+						$('#dlg').dialog('close');		// close the dialog
+						//$("#books").dataTable()._fnAjaxUpdate();
+                        oTable.ajax.reload(null, false);
+                    }
+				}
+			});
+		}
+		function destroyBook(){
+                var id = row;
+			if (id){
+				$.messager.confirm('Confirm','Are you sure you want to destroy this entry?',function(r){
+					if (r){
+						$.post('./destroy_book.php',{id:id},function(result){
+							if (result.success){
+						        $('#dlg').dialog('close');		// close the dialog
+						        //$("#books").dataTable()._fnAjaxUpdate();
+                                                        oTable.ajax.reload(null, false);
+                                } else {
+								$.messager.show({	// show error message
+									title: 'Error',
+									msg: result.errorMsg
+								});
+							}
+						},'json');
+					}
+				});
+			}
+		}
+		function print(){
+         $('#print').dialog('open').dialog('setTitle','Print');
+         $('#pfm').form('clear');
+			url = './print.php?user=$user';
+			}
+		function printIt() {
+           var newWindow = window.open("_blank");
+          $('#pfm').form('submit',{
+				url: url,
+				onSubmit: function(){
+					return $(this).form('validate');
+				},
+ 		          success: function(msg){
+                    var result = $.parseJSON(msg);
+                    newWindow.document.open();
+ 		              newWindow.document.write("<!DOCTYPE html>\n");
+ 		              newWindow.document.write("<html>\n<head>\n\t<title>Printout</title>\n</head>\n<body>\n\t<div id='demo'></div>\n");
+ 		              for( var i=0; i<result.entries.length; i++ ) {
+ 		               var objJSON = result.entries[i];
+  		               $.each(objJSON, function(key, value) {
+                        if( key == 'h1' ) {
+                           newWindow.document.write("<center><h1>"+value+"</h1></center>");
+                        } else if (key == 'h2' ) {
+                           newWindow.document.write("<center><h2>"+value+"</h2></center><br/>");
+                        } else {
+                           newWindow.document.write(value+"<p/>");
+                           }
+                     });
+  		              }
+ 		              newWindow.document.write("\n</body>\n</html>");
+                  }
+            });
+            newWindow.document.close();
+            newWindow.focus();
+        	   $('#print').dialog('close');
+        }
+	// Cookie functions
+function createCookie(name,value,days) {
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime()+(days*24*60*60*1000));
+		var expires = "; expires="+date.toGMTString();
+	}
+	else var expires = "";
+	document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+}
+
+function eraseCookie(name) {
+	createCookie(name,"",-1);
+	//alert("Cookie: "+name+": "+readCookie(name));
+    }
+        var logged_in = document.getElementById('logged_in');
+        if (readCookie('logged_in') ) {
+            toolbar.className = 'show';
+            sql_buttons.className = 'show';
+            createCookie('logged_in', 'yes', days);
+        } else {
+            toolbar.className = 'hide';
+            sql_buttons.className = 'hide';
+        }
+</script>
+
+	<style type="text/css">
+	        #dlg-buttons div {
+	            float: left;
+	            clear: none;
+	        }
+	        #toolbar.hide {
+	            display: none;
+	        }
+	        #toolbar.show {
+	            float: right;
+	            display: block;
+	        }
+	        #sql-buttons.hide {
+	            display: none;
+	        }
+	        #sql-buttons.show {
+	            display: block;
+	        }
+		#fm{
+			margin:0;
+			padding:10px 30px;
+	    }
+		.ftitle{
+			font-size:14px;
+			font-weight:bold;
+			padding:5px 0;
+			margin-bottom:10px;
+			border-bottom:1px solid #ccc;
+		}
+		.fitem{
+			margin-bottom:5px;
+		}
+		.fitem label{
+			display:inline-block;
+			width:80px;
+		}
+		.fitem input{
+			width:360px;
+		}
+		.datatable td {
+              overflow: hidden; /* this is what fixes the expansion */
+              text-overflow: ellipsis; /* not supported in all browsers, but I accepted the tradeoff */
+              white-space: nowrap;
+        }
+        table.tablesorter { /* So it won't keep expanding */
+            table-layout: fixed
+        }
+	</style>
+</body>
+</html>
