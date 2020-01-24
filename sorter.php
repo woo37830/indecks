@@ -7,12 +7,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="./_js/jquery.easyui.min.js"></script>
-  	<LINK REL="stylesheet" HREF="_css/home.css" id="styleid"/>
+  	<link rel="stylesheet" href="_css/home.css" id="styleid" type="text/css" />
   	<link rel="stylesheet" type="text/css" href="./themes/default/easyui.css">
 </head>
 <body>
     <div class="content">
       <div id="log_in">Login</div>
+      <br />
       <div id="navigation">
         <br />
         <ul>
@@ -60,9 +61,9 @@
       </div>
     </div>
     <div id="footer" >
-  	  <?php
+  	  <em><?php
   	  include 'git-info.php';
-  	  ?>
+  	  ?></em>
   	</div>
   	<div id="lin" class="easyui-dialog" style="width:400px;height:380px;padding:10px 20px"
   			closed="true" buttons="#lin-buttons">
@@ -206,9 +207,7 @@
                           }
 </script>
 <style type="text/css">
-        #log_in,#log_out {
-            float:  left;
-        }
+
         #dlg-buttons div {
             float: left;
             clear: none;
