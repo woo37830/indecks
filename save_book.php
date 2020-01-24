@@ -13,7 +13,7 @@ $date = htmlspecialchars($_REQUEST['date']);
 include 'conn.php';
 
 $stmt = $conn->prepare("insert into books(paper,measurement,header,page,data,user,image_url,date) values(?,?,?,?,?,?,?,?)");
-$stmt->bind_param("sisisss",$paper,$measurement,$header,$page,$data,$user,$image_url,$date);
+$stmt->bind_param("sisissss",$paper,$measurement,$header,$page,$data,$user,$image_url,$date);
 $result = $stmt->execute();
 
 if ($result){

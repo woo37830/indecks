@@ -10,8 +10,8 @@ $image_url = htmlspecialchars($_REQUEST['image_url']);
 $date = htmlspecialchars($_REQUEST['date']);
 
 include 'conn.php';
-$sql = $conn->prepare("update books set paper=?,measurement=?,header=?,page=?, data=?, image_url=? date=? where id=?");
-$sql->bind_param("sisissi",$paper,$measurement,$header,$page,$data, $image_url, $date, $id);
+$sql = $conn->prepare("update books set paper=?,measurement=?,header=?,page=?, data=?, image_url=?, date=? where id=?");
+$sql->bind_param("sisisssi",$paper,$measurement,$header,$page,$data, $image_url, $date, $id);
 
 if ($sql->execute()){
 	echo json_encode(array(
