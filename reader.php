@@ -33,7 +33,8 @@ require('conn.php');
 $sql = "SELECT * FROM books WHERE position_order = $page ";
 $sections = $conn -> query($sql);
 echo "<div class='content'>";
-?>
+if( isset($_COOKIE["user"])) {
+  ?>
 <div id="navigation">
   <ul>
     <li><a href="sorter.php">Sorter</a></li>
@@ -41,6 +42,7 @@ echo "<div class='content'>";
   </ul>
 </div>
 <?php
+}
 while($section = $sections->fetch_assoc()){
   echo "<div id='header'>";
     echo "<div class='title'>";
