@@ -12,6 +12,6 @@ in when they are viewing the pages.
 Fix display of menu to be a drop down. AND, and consistent for index
 and sorter.
 
-Move index.html to editor.html.  Add index.html that redirects to
+DONE - Move index.html to editor.html.  Add index.html that redirects to
 reader.php.
 
