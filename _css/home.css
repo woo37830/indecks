@@ -99,6 +99,7 @@ html , body{
   left: 10px;
   right: 10px;
   padding-top: 18px;
+  padding-bottom: 10px;
   font-size: 12px;
   font-family: 'Trebuchet MS', Arial, sans-serif;
   #border: 5px solid red;
@@ -109,6 +110,7 @@ html , body{
     left: 10px;
     right: 10px;
     padding-top: 18px;
+    padding-bottom: 10px;
     #background: url(../_images/bg-footer.png) repeat-x left top;
     /*border: 5px solid black;*/
 }

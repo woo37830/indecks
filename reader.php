@@ -1,11 +1,9 @@
 <?php
 $page = 1;
-if( isset($_COOKIE["user"])) { // cookie has userid, page_num,...
-    $value = $_COOKIE["user"];
-    $tmp = explode(",", $value);
-    $page = $tmp[1];
+if( isset($_COOKIE["page"])) { // cookie has userid, page_num,...
+    $page = $_COOKIE["page"];
 } else {
-  setcookie("user", "woo,1", time()+3600*24*30);
+  setcookie("page", "1", time()+3600*24*30);
 }
 if( isset($_POST['submit'])) {
   if( $_POST['submit'] != 'First' ) {
@@ -17,7 +15,7 @@ if( isset($_POST['submit'])) {
   } else {
     $page = 1;
   }
-  setcookie("user","woo,$page",time()+3600*24*30);
+  setcookie("page","$page",time()+3600*24*30);
 }
 echo "<html><head><title>Reader</title>";
 ?>
