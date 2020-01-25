@@ -5,13 +5,12 @@ And the save_book.php and update_book.php to only use those columns.
 Check that the selector works for the images.
 Send the selected url ( which may have multiple images )
 to a page to display the images with the title.
-Also, fix so that only the 'logged_in' is used for the user, BUT
-use a 'page' cookie to remember the page.  they may not be logged
-in when they are viewing the pages.
+DONE - Also, fix so that only the 'logged_in' is used for the user, BUT
+  use a 'page' cookie to remember the page.  they may not be logged
+  in when they are viewing the pages.
 
 Fix display of menu to be a drop down. AND, and consistent for index
 and sorter.
 
 DONE - Move index.html to editor.html.  Add index.html that redirects to
 reader.php.
-
