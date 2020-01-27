@@ -23,6 +23,14 @@ echo "<html><head><title>Reader</title>";
 <link rel="stylesheet" href="./_css/home.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<LINK REL="stylesheet" HREF="_css/menu.css" id="styleid"/>
+<script type="text/javascript">
+  jQuery(function($){
+           $( '.menu-btn' ).click(function(){
+           $('.responsive-menu').toggleClass('expand')
+           })
+        })
+</script>
 </head>
 <body>
   <div class="container" >
@@ -33,10 +41,21 @@ $sections = $conn -> query($sql);
 echo "<div class='content'>";
 ?>
 <div id="navigation">
-  <ul>
-    <li><a href="sorter.php">Sorter</a></li>
-    <li><a href="editor.html">Editor</a></li>
-  </ul>
+  <div class="mobile-nav">
+       <div class="menu-btn" id="menu-btn">
+  	<div></div>
+  	<span></span>
+  	<span></span>
+  	<span></span>
+       </div>
+
+       <div class="responsive-menu">
+          <ul>
+             <li><a href="sorter.php">Sorter</a></li>
+             <li><a href="editor.html">Editor</a></li>
+          </ul>
+       </div>
+  </div>
 </div>
 <?php
 while($section = $sections->fetch_assoc()){

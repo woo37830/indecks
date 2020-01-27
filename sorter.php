@@ -8,20 +8,41 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="./_js/jquery.easyui.min.js"></script>
   	<link rel="stylesheet" href="_css/home.css" id="styleid" type="text/css" />
+    <LINK REL="stylesheet" HREF="_css/menu.css" id="styleid"/>
   	<link rel="stylesheet" type="text/css" href="./themes/default/easyui.css">
+    <script type="text/javascript">
+		  jQuery(function($){
+		           $( '.menu-btn' ).click(function(){
+		           $('.responsive-menu').toggleClass('expand')
+		           })
+		        })
+		</script>
 </head>
 <body>
     <div class="content">
-      <div id="log_in">Login</div>
       <br />
       <div id="navigation">
-        <br />
-        <ul>
-          <li><a href="reader.php">Reader</a></li>
-          <li><a href="editor.html">Editor</a></li>
-        </ul>
+
+        <div class="mobile-nav">
+             <div class="menu-btn" id="menu-btn">
+          <div></div>
+          <span></span>
+          <span></span>
+          <span></span>
+             </div>
+
+             <div class="responsive-menu">
+                <ul>
+                   <li><a href="reader.php">Reader</a></li>
+                   <li><a href="editor.html">Editor</a></li>
+                </ul>
+             </div>
+        </div>
       </div>
-      <div class="title">
+      <div id="page" >
+
+      <div id="log_in">Login</div>
+    <div class="title">
         Biographical Event Sorter
       </div>
        <div id="data">
@@ -60,6 +81,7 @@
         <h3>You must be logged in to use the sorter</h3>
       </div>
     </div>
+  </div>
     <div id="footer" >
   	  <em><?php
   	  include 'git-info.php';

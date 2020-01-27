@@ -14,6 +14,7 @@
     <!-- link rel="stylesheet" href="_css/jquery.tablesorter.pager.css" / -->
 	<script type="text/javascript" src="./_js/jquery.easyui.min.js"></script>
 	<LINK REL="stylesheet" HREF="_css/home.css" id="styleid"/>
+	<LINK REL="stylesheet" HREF="_css/menu.css" id="styleid"/>
 	<link rel="stylesheet" type="text/css" href="./themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="./themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="./themes/color.css">
@@ -100,25 +101,44 @@
             });
         });
     </script>
+		<script type="text/javascript">
+		  jQuery(function($){
+		           $( '.menu-btn' ).click(function(){
+		           $('.responsive-menu').toggleClass('expand')
+		           })
+		        })
+		</script>
 </head>
 <body
     <div class="wrapper">
         <div class="header"></div>
-	    <div class="content">
-	    <div id="log_in">Login</div>
-			<br />
+
+    <div class="content">
+
 			<div id="navigation">
-				<br />
-				<ul>
-					<li><a href="reader.php">Reader</a></li>
-					<li><a href="sorter.php">Sorter</a></li>
-				</ul>
+				<div class="mobile-nav">
+			       <div class="menu-btn" id="menu-btn">
+			  	<div></div>
+			  	<span></span>
+			  	<span></span>
+			  	<span></span>
+			       </div>
+
+			       <div class="responsive-menu">
+			          <ul>
+				             <li><a href="reader.php">Reader</a></li>
+			             <li><a href="sorter.php">Sorter</a></li>
+			          </ul>
+			       </div>
+			  </div>
 			</div>
-        <div id="toolbar" class="hide">
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newBook()">New Entry</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="print()">Print</a>
-        </div>
             <div id="page" >
+							<div id="log_in">Login</div>
+							<div id="toolbar" class="hide">
+			            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newBook()">New Entry</a>
+			            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="print()">Print</a>
+			        </div>
+
                 <div class="title">Biographical Event Editor</div>
                 <hr/>
                 <table id="books" class="tablesorter">
