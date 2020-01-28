@@ -6,9 +6,9 @@ if( isset($_COOKIE["page"])) { // cookie has userid, page_num,...
 } else {
   setcookie("page", "1", time()+3600*24*30);
 }
-if( isset($_POST['submit'])) {
-  if( $_POST['submit'] != 'First' ) {
-    if( $_POST['submit'] == "Next" ) {
+if( isset($_REQUEST['submit'])) {
+  if( $_REQUEST['submit'] != 'First' ) {
+    if( $_REQUEST['submit'] == "Next" ) {
       $page++;
     } else {
       $page--;
@@ -30,7 +30,17 @@ echo "<html><head><title>Reader</title>";
            $( '.menu-btn' ).click(function(){
            $('.responsive-menu').toggleClass('expand')
            })
-        })
+        });
+        $(document).ready(function() {
+          $("body").keydown(function(e) {
+            if( e.which == 37 ) {
+              window.location = './reader.php?submit=Prev';
+            }
+            else if( e.which == 39 ) {
+              window.location = './reader.php?submit=Next';
+            }
+          });
+        });
 </script>
 </head>
 <body>

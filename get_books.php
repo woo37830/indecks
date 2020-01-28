@@ -1,4 +1,5 @@
 <?php
+  require 'config.ini.php';
 	require 'conn.php';
 	$page = isset($_POST['page']) ? intval($_POST['page']) : 1;
 	//$rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
@@ -15,7 +16,8 @@
   //} else {
     $whereclause = "";
   //}
-  $sql = "SELECT * FROM `books`";
+	$table = $config['DATABASE_TABLE'];
+  $sql = "SELECT * FROM `$table`";
 	$rs = $conn -> query( $sql );
 
 	$items = array();

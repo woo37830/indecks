@@ -37,15 +37,12 @@
                 dataSrc: "entries"
             },
             columns: [
-                { data: "id", width: "10%" },
-                { data:  "paper" },
-                { data:  "measurement" },
+                { data: "id", width: "5%" },
                 { data:  "header" },
-                { data:  "page" },
                 { data:  "data" },
                 { data:  "image_url" },
-								{ data:  "position_order" },
-								{ data:  "date",
+								{ data:  "position_order", width: "5%" },
+								{ data:  "date", width: "5%",
             			render: function(data, type, row){
                 		if(type === "sort" || type === "type"){
                     	return data;
@@ -58,7 +55,7 @@
             		}
 							}
             ],
-						order: [[7, 'asc']]
+						order: [[5, 'asc']]
             });
 						$.ajax({
 					 url:'git-info.php',
@@ -76,7 +73,7 @@
                 var row = $(this).closest("tr");
 								var colIndex = parseInt( $(this).index() ) + 1;
 								if( colIndex == 1 ) {
-                editBook($(row).find("td:nth-child(1)").text(),$(row).find("td:nth-child(2)").text(),$(row).find("td:nth-child(3)").text(),$(row).find("td:nth-child(4)").text(),$(row).find("td:nth-child(5)").text(),$(row).find("td:nth-child(6)").text(),$(row).find("td:nth-child(7)").text());
+                editBook($(row).find("td:nth-child(1)").text(),$(row).find("td:nth-child(2)").text(),$(row).find("td:nth-child(3)").text(),$(row).find("td:nth-child(4)").text(),$(row).find("td:nth-child(5)").text());
 							} else if( colIndex == 7 ) {
 									var image_cell = $(row).find("td:nth-child(7)").text();
 									if( image_cell != "" ) { // TODO - Change to formatted page with title, back button, and sized image
@@ -145,10 +142,7 @@
                     <thead>
                         <tr>
                             <th class="id_name">ID</th>
-                            <th class="paper_name">Paper</th>
-                            <th class="measurement_name">Number</th>
                             <th class="header_name">Header</th>
-                            <th class="page_name">Page</th>
                             <th class="data_name">Data</th>
                             <th class="url_name">URL</th>
 														<th class="position_order_name">Order</th>
@@ -185,20 +179,8 @@
 		<div class="ftitle">Entry</div>
 		<form id="fm" method="post" novalidate>
 			<div class="fitem">
-				<label>Paper:</label>
-				<input name="paper" class="easyui-textbox" required="true" >
-			</div>
-			<div class="fitem">
-				<label>Measurement:</label>
-				<input name="measurement" class="easyui-textbox" required="true">
-			</div>
-			<div class="fitem">
 				<label>Header:</label>
 				<input name="header" class="easyui-textbox">
-			</div>
-			<div class="fitem">
-				<label>Page:</label>
-				<input name="page" class="easyui-textbox" required="true">
 			</div>
  			<div class="fitem">
 				<label>Data:</label>
@@ -288,19 +270,17 @@
 			$('#dlg').dialog('open').dialog('setTitle','New Entry');
 			$('#fm').form('clear');
 			var u = readCookie('userid');
-			url = './save_book.php?user='+u;
+			url = './save_book.php';
 		}
-		function editBook( id, paper, measurement, header, page, data, image_url){
+		function editBook( id, header, data, image_url){
 			if (paper){
 			//alert("Values are: "+author+", "+title);
 				$('#dlg').dialog('open').dialog('setTitle','Edit Entry');
 				$('#fm').form('load',{
-				    paper: paper,
-				    measurement: measurement,
 				    header: header,
-				    page: page,
 				    data: data,
-				    image_url: image_url
+				    image_url: image_url,
+						date: date
 				});
 				row = id;
 				url = './update_book.php?id='+id;
