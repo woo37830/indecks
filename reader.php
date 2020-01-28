@@ -1,4 +1,5 @@
 <?php
+require 'config.ini.php';
 $page = 1;
 if( isset($_COOKIE["page"])) { // cookie has userid, page_num,...
     $page = $_COOKIE["page"];

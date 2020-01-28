@@ -1,10 +1,10 @@
 <?php
-  $user = htmlspecialchars($_REQUEST['user']);
+	require 'conn.php';
 	$page = isset($_POST['page']) ? intval($_POST['page']) : 1;
 	//$rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
 	//$offset = ($page-1)*$rows;
 	$result = array();
-	require 'conn.php';
+
     //$user = 'woo';
 	//$rs = mysql_query("select count(*) from data");
 	//$row = mysql_fetch_row($rs);
