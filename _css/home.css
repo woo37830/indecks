@@ -91,7 +91,7 @@ html , body{
 
     /*float: right;*/
     z-index: -1;
-    border: 5px solid magenta;
+    #border: 5px solid magenta;
 }
 #debug {
     bottom: 0;
