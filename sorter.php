@@ -45,7 +45,7 @@
     <div class="title">
         Biographical Event Sorter
       </div>
-       <div id="content">
+       <div id="data">
         <table class="table table-bordered">
             <tr>
                 <th>#</th>
@@ -161,7 +161,7 @@
           	            $("#log_out").text("Login");
           	            $("#log_out").attr('id', 'log_in');
                           $("#data").attr('class', 'hide');
-                          $("no-access").attr('class','show');
+                          $("#no-access").attr('class','show');
         	}
                    var days = 1;
               	function login() {
