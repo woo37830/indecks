@@ -73,7 +73,8 @@ echo "<html><head><title>Reader</title>";
   <div class="container" >
 <?php
 require('conn.php');
-$sql = "SELECT * FROM books WHERE position_order = $page ";
+$table = $config['DATABASE_TABLE'];
+$sql = "SELECT * FROM $table WHERE position_order = $page ";
 $sections = $conn -> query($sql);
 echo "<div class='content'>";
 ?>
@@ -101,7 +102,7 @@ while($section = $sections->fetch_assoc()){
       echo $section['header'];
         echo "<div class='page_num'>";
           echo "Page: $page";
-          if( isset($section['date']) ) {
+          if( isset($section['date']) && $section['date'] != "0000-00-00" ) {
             $date = $section['date'];
             $date = date_create($date);
             $year = date_format($date,"Y");
@@ -157,7 +158,6 @@ echo "<center>";
 
 ?>
 <form action='' method='POST'>
-
   <?php
     if( $page > 1 ) { ?>
     <input type='submit' name='submit' value='First'/> |

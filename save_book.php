@@ -1,27 +1,20 @@
 <?php
 
-$user = htmlspecialchars($_REQUEST['user']);
-
-$paper = htmlspecialchars($_REQUEST['paper']);
-$measurement = htmlspecialchars($_REQUEST['measurement']);
+require 'config.ini.php';
 $header = htmlspecialchars($_REQUEST['header']);
-$page = htmlspecialchars($_REQUEST['page']);
 $data = htmlspecialchars($_REQUEST['data']);
 $image_url = htmlspecialchars($_REQUEST['image_url']);
 $date = htmlspecialchars($_REQUEST['date']);
 
 include 'conn.php';
-
-$stmt = $conn->prepare("insert into books(paper,measurement,header,page,data,user,image_url,date) values(?,?,?,?,?,?,?,?)");
-$stmt->bind_param("sisissss",$paper,$measurement,$header,$page,$data,$user,$image_url,$date);
+$table = $config['DATABASE_TABLE'];
+$stmt = $conn->prepare("insert into $table(header,data,image_url,date) values(?,?,?,?)");
+$stmt->bind_param("ssss",$header,$data,$image_url,$date);
 $result = $stmt->execute();
 
 if ($result){
 	echo json_encode(array(
-		'paper' => $paper,
-		'measurement' => $measurement,
 		'header' => $header,
-		'page' => $page,
 		'data' => $data,
 		'image_url' => $image_url,
 		'date' => $date

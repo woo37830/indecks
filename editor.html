@@ -42,13 +42,13 @@
                 { data:  "data" },
                 { data:  "image_url" },
 								{ data:  "position_order", width: "5%" },
-								{ data:  "date", width: "5%",
+								{ data:  "date", width: "10%",
             			render: function(data, type, row){
                 		if(type === "sort" || type === "type"){
                     	return data;
                 		}
 										if( data != null ) {
-                		return data.substr(0,4);
+                		return data;
 									} else {
 										return "";
 									}
@@ -73,9 +73,9 @@
                 var row = $(this).closest("tr");
 								var colIndex = parseInt( $(this).index() ) + 1;
 								if( colIndex == 1 ) {
-                editBook($(row).find("td:nth-child(1)").text(),$(row).find("td:nth-child(2)").text(),$(row).find("td:nth-child(3)").text(),$(row).find("td:nth-child(4)").text(),$(row).find("td:nth-child(5)").text());
-							} else if( colIndex == 7 ) {
-									var image_cell = $(row).find("td:nth-child(7)").text();
+                editBook($(row).find("td:nth-child(1)").text(),$(row).find("td:nth-child(2)").text(),$(row).find("td:nth-child(3)").text(),$(row).find("td:nth-child(4)").text(),$(row).find("td:nth-child(6)").text());
+							} else if( colIndex == 4 ) {
+									var image_cell = $(row).find("td:nth-child(4)").text();
 									if( image_cell != "" ) { // TODO - Change to formatted page with title, back button, and sized image
 										var win = window.open("./figures/"+image_cell, '_blank');
 										win.focus();
@@ -269,12 +269,10 @@
 		function newBook(){
 			$('#dlg').dialog('open').dialog('setTitle','New Entry');
 			$('#fm').form('clear');
-			var u = readCookie('userid');
 			url = './save_book.php';
 		}
-		function editBook( id, header, data, image_url){
-			if (paper){
-			//alert("Values are: "+author+", "+title);
+		function editBook( id, header, data, image_url, date){
+
 				$('#dlg').dialog('open').dialog('setTitle','Edit Entry');
 				$('#fm').form('load',{
 				    header: header,
@@ -285,7 +283,7 @@
 				row = id;
 				url = './update_book.php?id='+id;
 			}
-		}
+
 		function updateBook(){
 			$('#fm').form('submit',{
 				url: url,
@@ -316,7 +314,7 @@
 							if (result.success){
 						        $('#dlg').dialog('close');		// close the dialog
 						        //$("#books").dataTable()._fnAjaxUpdate();
-                                                        oTable.ajax.reload(null, false);
+                    oTable.ajax.reload(null, false);
                                 } else {
 								$.messager.show({	// show error message
 									title: 'Error',

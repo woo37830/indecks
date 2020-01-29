@@ -45,7 +45,7 @@
     <div class="title">
         Biographical Event Sorter
       </div>
-       <div id="data">
+       <div id="content">
         <table class="table table-bordered">
             <tr>
                 <th>#</th>
@@ -57,7 +57,9 @@
             <?php
 
             require('conn.php');
-            $sql = "SELECT * FROM books ORDER BY position_order";
+            require 'config.ini.php';
+            $table = $config['DATABASE_TABLE'];
+            $sql = "SELECT * FROM $table ORDER BY position_order";
             $sections = $conn -> query($sql);
             while($section = $sections->fetch_assoc()){
                 $date = $section['date'];
@@ -83,6 +85,7 @@
     </div>
   </div>
     <div id="footer" >
+      <hr />
   	  <em><?php
   	  include 'git-info.php';
   	  ?></em>
