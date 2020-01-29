@@ -33,7 +33,7 @@ echo "<html><head><title>Reader</title>";
         });
         $(document).ready(function() {
           $("body").keydown(function(e) {
-            if( e.which == 37 ) {
+            if( e.which == 37 && $page > 1 ) {
               window.location = './reader.php?submit=Prev';
             }
             else if( e.which == 39 ) {
@@ -41,6 +41,32 @@ echo "<html><head><title>Reader</title>";
             }
           });
         });
+        var start = null;
+ window.addEventListener("touchstart",function(event){
+   if(event.touches.length === 1){
+      //just one finger touched
+      start = event.touches.item(0).clientX;
+    }else{
+      //a second finger hit the screen, abort the touch
+      start = null;
+    }
+  });
+  window.addEventListener("touchend",function(event){
+    var offset = 100;//at least 100px are a swipe
+    if(start){
+      //the only finger that hit the screen left it
+      var end = event.changedTouches.item(0).clientX;
+
+      if((end > start + offset) && $page > 1){
+       //a left -> right swipe
+       window.location = './reader.php?submit=Prev';
+      }
+      if(end < start - offset ){
+       //a right -> left swipe
+       window.location = './reader.php?submit=Next';
+      }
+    }
+  });
 </script>
 </head>
 <body>
