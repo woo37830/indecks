@@ -18,10 +18,16 @@ if( isset($_REQUEST['submit'])) {
   }
   setcookie("page","$page",time()+3600*24*30);
 }
+$title = $section['header'];
+require('conn.php');
+$table = $config['DATABASE_TABLE'];
+$sql = "SELECT * FROM $table WHERE position_order = $page ";
+$sections = $conn -> query($sql);
+
 echo "<html><head><title>Reader</title>";
 ?>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="./_css/home.css">
+<link rel="stylesheet" href="_css/layout.css" id="styleid" type="text/css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <LINK REL="stylesheet" HREF="_css/menu.css" id="styleid"/>
@@ -57,7 +63,7 @@ echo "<html><head><title>Reader</title>";
       //the only finger that hit the screen left it
       var end = event.changedTouches.item(0).clientX;
 
-      if((end > start + offset) && $page > 1){
+      if((end > start + offset) && <?php echo $page; ?> > 1){
        //a left -> right swipe
        window.location = './reader.php?submit=Prev';
       }
@@ -70,64 +76,58 @@ echo "<html><head><title>Reader</title>";
 </script>
 </head>
 <body>
-  <div class="container" >
-<?php
-require('conn.php');
-$table = $config['DATABASE_TABLE'];
-$sql = "SELECT * FROM $table WHERE position_order = $page ";
-$sections = $conn -> query($sql);
-echo "<div class='content'>";
-?>
-<div id="navigation">
-  <div class="mobile-nav">
-       <div class="menu-btn" id="menu-btn">
-  	<div></div>
-  	<span></span>
-  	<span></span>
-  	<span></span>
-       </div>
+  <div class="wrapper" >
 
-       <div class="responsive-menu">
-          <ul>
-             <li><a href="sorter.php">Sorter</a></li>
-             <li><a href="editor.html">Editor</a></li>
-          </ul>
-       </div>
-  </div>
-</div>
+    <header>
+			<label><?php echo $title; ?></label>
+		</header>
+		<div id="content">
+			<div id="navigation-container">
+			<div id="navigation">
+				<div class="mobile-nav">
+						 <div class="menu-btn" id="menu-btn">
+						 <div>
+				</div>
+					<span></span>
+					<span></span>
+					<span></span>
+						 </div>
+
+						 <div class="responsive-menu">
+								<ul>
+									<li><a href="reader.php">Reader</a></li>
+									<li><a href="sorter.php">Sorter</a></li>
+								</ul>
+						 </div>
+				</div>
+			</div>
+			<div id="page_num">
+				Page: <?php echo $page;
+        if( isset($section['date']) && $section['date'] != "0000-00-00" ) {
+          $date = $section['date'];
+          $date = date_create($date);
+          $year = date_format($date,"Y");
+          echo "<br />Year: $year";
+        }
+        ?>
+      </div>
+    <div id='page'>
 <?php
 while($section = $sections->fetch_assoc()){
-  echo "<div id='header'>";
-    echo "<div class='title'>";
-      echo $section['header'];
-        echo "<div class='page_num'>";
-          echo "Page: $page";
-          if( isset($section['date']) && $section['date'] != "0000-00-00" ) {
-            $date = $section['date'];
-            $date = date_create($date);
-            $year = date_format($date,"Y");
-            echo "<br />Year: $year";
-          }
-        echo "</div>";
-    echo "</div>";
-  echo "</div>";
-echo "<p/>";
+
 if( $section['image_url'] != "" ) {
   $figures = explode(",",$section['image_url']);
   $num_figures = sizeof($figures);
   if( $num_figures == 1 ) {
       $src = urlencode($figures[0]);
       $image = "./figures/$src";
-      echo "<center>";
       echo "<img src=$image style=\"width:500px;height:300px;\" />";
       echo "<p />";
       echo "<h3>$src</h3><p />";
-      echo "</center>";
     } else {
       $width = 800/$num_figures;
       $height = $width;
        ?>
-       <center>
       <table>
       <tbody>
       <tr>
@@ -145,16 +145,14 @@ if( $section['image_url'] != "" ) {
       </tr>
       </tbody>
       </table>
-    </center>
       <?php
-    }
 }
-echo "<div class='text-wrapper'>";
 echo $section['data'];
+}
 echo "</div>";
 echo "<p />";
-echo "<center>";
 }
+
 
 ?>
 <form action='' method='POST'>
@@ -172,3 +170,6 @@ echo "<center>";
   include 'git-info.php';
   ?></em>
 </div>
+</div>
+</body>
+</html>
