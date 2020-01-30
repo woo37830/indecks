@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset="UTF-8">
+	<title>Layout</title>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="./themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="./themes/color.css">
+
+</head>
+<body
+    <div class="wrapper">
+    <header>
+			<label>30px header</label>
+			<div class="page_num">
+				Page: 3
+			</div>
+		</header>
+		<div id="content">
+		<div id="page">
+			Page
+		</div>
+		<div class="nav-buttons">
+			<div class="nav-button"><input type="button" value="Button1"/></div>
+			<div class="nav-button"><input type="button" value="Button2"/></div>
+			<div class="nav-button"><input type="button" value="Button3"/></div>
+		</div>
+</div>
+		<footer>30ox footer</footer>
+		</div>
+	<style type="text/css">
+
+		.wrapper {
+			min-height: 100%;
+			margin-bottom: -30px;
+		}
+
+		header,
+		footer {
+			padding: 10px;
+			height: 30px;
+			text-align: center;
+		}
+
+		.nav-buttons {
+			width: 100%;
+			text-align: center;
+		}
+
+		.nav-button {
+			width: 100px;
+			padding: 10px;
+			display: inline-block;
+		}
+
+		#content {
+			height: auto;
+			min-height:  200px;
+			padding: 10px;
+		}
+
+		#page {
+			height: auto;
+			padding: 10px;
+			width: 80%;
+			margin-left: auto;
+			margin-right: auto;
+			border: 5px solid magenta;
+		}
+
+		html,
+		body {
+			height: 100%;
+			margin: 0;
+		}
+
+		header {
+			background-color: #2ecc71;
+		}
+
+		footer {
+			background-color: #2c3e50;
+			color: white;
+		}
+
+		.page_num
+		{
+		  float: right;
+		  font-size:12pt; font-family:arial;
+		  border: 3px solid blue;
+		}
+
+		#nav
+		{
+		    width: 10%;
+		    float: left;
+		    border: 5px solid red;
+		}
+		label
+		{
+		    font-size:16pt; font-family:arial;
+		}
+
+		#navigation ul, #navigation li {
+		    margin: 0;
+		    padding: 0;
+		    list-style-type: none;
+		    z-index: 100;
+		}
+		#navigation a {
+		    background-color: rgb(204,204,204);
+		    text-decoration: none;
+		    font: 16px 'ColaborateLightRegular', Arial, sans-serif;
+		    text-indent: 10px;
+		    border-top: 1px solid #ccc;
+		    border-left:1px solid #ccc;
+		    border-right:1px solid #999;
+		    border-bottom:1px solid #999;
+		    margin: 0px;
+		    padding: 0px;
+		    color: rgb(53,75,118);
+		}
+		#navigation a:hover {
+		    border-top:1px solid #999;
+		    border-left:1px solid #999;
+		    border-right:1px solid #ccc;
+		    border-bottom:1px solid #ccc;
+		    background-color: #555;
+		    color: white;
+		}
+		#navigation .stack > a {
+		    background-image: url(../_images/arrow.png);
+		    background-repeat: no-repeat;
+		    background-position: 97% 8px;
+		}
+		#navigation .stack > a:hover {
+		    background-position: 97% -78px;
+		}
+		#navigation ul .stack > a {
+		    background-position: 97% -21px;
+		}
+		#navigation ul .stack > a:hover {
+		    background-position: 97% -54px;
+		}
+
+		</style>
+</body>
+</html>
