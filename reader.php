@@ -18,7 +18,6 @@ if( isset($_REQUEST['submit'])) {
   }
   setcookie("page","$page",time()+3600*24*30);
 }
-$title = $section['header'];
 require('conn.php');
 $table = $config['DATABASE_TABLE'];
 $sql = "SELECT * FROM $table WHERE position_order = $page ";
@@ -39,7 +38,7 @@ echo "<html><head><title>Reader</title>";
         });
         $(document).ready(function() {
           $("body").keydown(function(e) {
-            if( e.which == 37 && $page > 1 ) {
+            if( e.which == 37 && <?php echo $page; ?> > 1 ) {
               window.location = './reader.php?submit=Prev';
             }
             else if( e.which == 39 ) {
@@ -95,7 +94,7 @@ echo "<html><head><title>Reader</title>";
 
 						 <div class="responsive-menu">
 								<ul>
-									<li><a href="reader.php">Reader</a></li>
+									<li><a href="editor.html">Editor</a></li>
 									<li><a href="sorter.php">Sorter</a></li>
 								</ul>
 						 </div>
@@ -111,19 +110,23 @@ echo "<html><head><title>Reader</title>";
         }
         ?>
       </div>
-    <div id='page'>
 <?php
 while($section = $sections->fetch_assoc()){
-
+  $title = $section['header'];
+  echo "<label class='header'>$title</label>";
+  echo "<div id='page'>";
 if( $section['image_url'] != "" ) {
+  echo "<center>";
   $figures = explode(",",$section['image_url']);
   $num_figures = sizeof($figures);
   if( $num_figures == 1 ) {
       $src = urlencode($figures[0]);
       $image = "./figures/$src";
+      $path_parts = pathinfo($image);
+      $figure = $path_parts['filename'];
       echo "<img src=$image style=\"width:500px;height:300px;\" />";
       echo "<p />";
-      echo "<h3>$src</h3><p />";
+      echo "<header>$figure</header><p />";
     } else {
       $width = 800/$num_figures;
       $height = $width;
@@ -140,32 +143,41 @@ if( $section['image_url'] != "" ) {
       <tr>
         <?php for($i=0;$i<$num_figures; $i++) {
           $src = urlencode($figures[$i]);
-          ?> <td> <?php echo "$src"; ?></td><?php
+          $image = "./figures/$src";
+          $path_parts = pathinfo($image);
+          $figure = $path_parts['filename'];
+          ?> <td><header> <?php echo "$figure"; ?></header></td><?php
         } ?>
       </tr>
       </tbody>
       </table>
       <?php
 }
+echo "</center>";
+}
 echo $section['data'];
-}
+
 echo "</div>";
-echo "<p />";
 }
+
 
 
 ?>
+</div>
+<div class="nav-buttons">
+
 <form action='' method='POST'>
   <?php
     if( $page > 1 ) { ?>
-    <input type='submit' name='submit' value='First'/> |
-    <input type='submit' name='submit' value='Prev' /> |
+    <div class="nav-button"><input type='submit' name='submit' value='First'/></div>
+    <div class="nav-button"><input type='submit' name='submit' value='Prev' /></div>
   <?php } ?>
-    <input type='submit' name='submit' value='Next'/>
+    <div class="nav-button"><input type='submit' name='submit' value='Next'/></div>
 </form>
+
 </div>
-<p /><p />
-<div id="footer" >
+
+<div id="footer">
   <em><?php
   include 'git-info.php';
   ?></em>
