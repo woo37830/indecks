@@ -120,11 +120,19 @@ if( $section['image_url'] != "" ) {
   $figures = explode(",",$section['image_url']);
   $num_figures = sizeof($figures);
   if( $num_figures == 1 ) {
-      $src = urlencode($figures[0]);
+      $pieces = explode(":", $figures[0]);
+      $figure = $pieces[0];
+      $width = "300px";
+      $heigth = "400px";
+      if( sizeof($pieces) > 1 ) {
+          $width = $pieces[1];
+          $heigth = $pieces[2];
+      }
+      $src = urlencode($figure);
       $image = "./figures/$src";
       $path_parts = pathinfo($image);
       $figure = $path_parts['filename'];
-      echo "<img src=$image style=\"width:500px;height:300px;\" />";
+      echo "<img src=$image style=\"width:$width;height:$heigth;\" />";
       echo "<p />";
       echo "<header>$figure</header><p />";
     } else {
