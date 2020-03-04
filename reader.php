@@ -6,20 +6,37 @@ if( isset($_COOKIE["page"])) { // cookie has userid, page_num,...
 } else {
   setcookie("page", "1", time()+3600*24*30);
 }
+require('conn.php');
+$table = $config['DATABASE_TABLE'];
+$sql = "SELECT * from $table";
+if ($result=$conn->query($sql))
+  {
+  // Return the number of rows in result set
+  $rowcount=$result->num_rows;
+  //echo "Rows = " . $rowcount;
+//  mysqli_free_result($result);
+  }
 if( isset($_REQUEST['submit'])) {
   if( $_REQUEST['submit'] != 'First' ) {
-    if( $_REQUEST['submit'] == "Next" ) {
-      $page++;
+    if( $_REQUEST['submit'] == "Next"  ) {
+      if( $page < $rowcount ) {
+        $page++;
+      }
+    } else if( $_REQUEST['submit'] == "Prev" ){
+      if( $page > 1 ) {
+        $page--;
+      }
     } else {
-      $page--;
+      $page = $rowcount;
     }
   } else {
     $page = 1;
   }
+
   setcookie("page","$page",time()+3600*24*30);
 }
-require('conn.php');
-$table = $config['DATABASE_TABLE'];
+
+//mysqli_close($con);//$results.close();
 $sql = "SELECT * FROM $table WHERE position_order = $page ";
 $sections = $conn -> query($sql);
 
@@ -41,7 +58,7 @@ echo "<html><head><title>Reader</title>";
             if( e.which == 37 && <?php echo $page; ?> > 1 ) {
               window.location = './reader.php?submit=Prev';
             }
-            else if( e.which == 39 ) {
+            else if( e.which == 39 && <?php echo $page; ?> < <?php echo $rowcount; ?> ) {
               window.location = './reader.php?submit=Next';
             }
           });
@@ -66,7 +83,7 @@ echo "<html><head><title>Reader</title>";
        //a left -> right swipe
        window.location = './reader.php?submit=Prev';
       }
-      if(end < start - offset ){
+      if(end < start - offset && <?php echo $page; ?> < <?php echo $rowcount; ?> ){
        //a right -> left swipe
        window.location = './reader.php?submit=Next';
       }
@@ -179,8 +196,11 @@ echo "</div>";
     if( $page > 1 ) { ?>
     <div class="nav-button"><input type='submit' name='submit' value='First'/></div>
     <div class="nav-button"><input type='submit' name='submit' value='Prev' /></div>
-  <?php } ?>
+  <?php }
+    if( $page < $rowcount ) { ?>
     <div class="nav-button"><input type='submit' name='submit' value='Next'/></div>
+  <?php } ?>
+    <div class="nav-button"><input type='submit' name='submit' value='Last'/></div>
 </form>
 
 </div>
