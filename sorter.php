@@ -61,8 +61,12 @@
             $table = $config['DATABASE_TABLE'];
             $sql = "SELECT * FROM $table ORDER BY position_order";
             $sections = $conn -> query($sql);
+            error_log("sql is: ".$sql."\n", 3, "/var/tmp/my-errors.log");
+            $kount = 1;
             while($section = $sections->fetch_assoc()){
-                $date = $section['date'];
+              error_log("display: $kount ".$section['id']."\n",3,"/var/tmp/my-errors.log");
+              $kount++;
+            $date = $section['date'];
                 $year = "";
                 if( $date != null ) {
                   $date_time = date_create($date);
